@@ -4,6 +4,7 @@ const throwError = require('../utils/throwError');
 const { validateLogin: validateLoginData } = require('./validations/valuesValidation');
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 401;
 
 const validateBody = (params) => {
   const error = validateLoginData(params);
@@ -26,7 +27,14 @@ const validateLogin = async ({ email, password }) => {
   return token;
 };
 
+const validateToken = (token) => {
+  if (!token) throwError(NOT_FOUND, 'Token not found');
+  const user = jwtUtil.validateToken(token);
+  return user;
+};
+
 module.exports = {
   validateBody,
   validateLogin,
+  validateToken,
 };

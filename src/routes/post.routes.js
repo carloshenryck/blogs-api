@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.use(validateToken);
 
-router.get('/', postController.getAllById);
+router.get('/', postController.getAllByUserId);
+router.get('/:id', postController.getByPostId);
 router.post('/', postValidation, postController.addPost);
 
 module.exports = router;

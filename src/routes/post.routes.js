@@ -9,6 +9,7 @@ router.use(validateToken);
 
 router.get('/', postController.getAllByUserId);
 router.get('/:id', postController.getByPostId);
-router.post('/', postValidation, postController.addPost);
+router.put('/:id', postValidation.editValidation, postController.editPost);
+router.post('/', postValidation.addValidation, postController.addPost);
 
 module.exports = router;

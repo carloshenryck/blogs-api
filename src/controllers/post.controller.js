@@ -25,8 +25,20 @@ const getByPostId = async (req, res, next) => {
   }
 };
 
+const editPost = async (req, res, next) => {
+  try {
+    const { id: postId } = req.params;
+    const { id: userId } = req.user;
+    const post = await postService.editPost(postId, userId, req.body);
+    res.status(200).json(post);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addPost,
   getAllByUserId,
   getByPostId,
+  editPost,
 };

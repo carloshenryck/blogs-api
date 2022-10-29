@@ -10,6 +10,12 @@ const addPost = async (req, res, next) => {
   }
 };
 
+const getAllById = async (req, res) => {
+  const posts = await postService.getPostsByUserId(req.user.id);
+  res.status(200).json(posts);
+};
+
 module.exports = {
   addPost,
+  getAllById,
 };

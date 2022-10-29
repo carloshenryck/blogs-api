@@ -18,7 +18,7 @@ const getAllByUserId = async (req, res) => {
 const getByPostId = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const post = await postService.getByPostById(id);
+    const post = await postService.getPostById(id);
     res.status(200).json(post);
   } catch (error) {
     next(error);
@@ -36,9 +36,21 @@ const editPost = async (req, res, next) => {
   }
 };
 
+const deletePost = async (req, res, next) => {
+  try {
+    const { id: userId } = req.user;
+    const { id: postId } = req.params;
+    await postService.deletePost(postId, userId);
+    res.status(204).json();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addPost,
   getAllByUserId,
   getByPostId,
   editPost,
+  deletePost,
 };

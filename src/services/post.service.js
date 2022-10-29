@@ -52,7 +52,7 @@ const getPostsByUserId = async (userId) => {
   return posts;
 };
 
-const getByPostById = async (postId) => {
+const getPostById = async (postId) => {
   const post = await BlogPost.findOne({
     where: { id: postId },
     include: [
@@ -76,13 +76,22 @@ const editPost = async (postId, userId, payload) => {
     { where: { id: postId } },
   );
 
-  const post = await getByPostById(postId);
+  const post = await getPostById(postId);
   return post;
+};
+
+const deletePost = async (postId, userId) => {
+  const post = await getPostById(postId);
+  if (!post) throwError(404, 'Post does not exist');
+  if (post.userId !== userId) throwError(401, 'Unauthorized user');
+
+  await BlogPost.destroy({ where: { id: postId } });
 };
 
 module.exports = {
   addPost,
   getPostsByUserId,
-  getByPostById,
+  getPostById,
   editPost,
+  deletePost,
 };

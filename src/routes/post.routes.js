@@ -11,5 +11,6 @@ router.get('/', postController.getAllByUserId);
 router.get('/:id', postController.getByPostId);
 router.put('/:id', postValidation.editValidation, postController.editPost);
 router.post('/', postValidation.addValidation, postController.addPost);
+router.delete('/:id', postController.deletePost);
 
 module.exports = router;

@@ -25,6 +25,19 @@ const getByPostId = async (req, res, next) => {
   }
 };
 
+const getPostByTerm = async (req, res) => {
+  const { q } = req.query;
+  let post = {};
+
+  if (q) {
+    post = await postService.getPostByTerm(q); 
+  } else {
+    post = await postService.getAllPost();
+  }
+
+  res.status(200).json(post);
+};
+
 const editPost = async (req, res, next) => {
   try {
     const { id: postId } = req.params;
@@ -51,6 +64,7 @@ module.exports = {
   addPost,
   getAllByUserId,
   getByPostId,
+  getPostByTerm,
   editPost,
   deletePost,
 };

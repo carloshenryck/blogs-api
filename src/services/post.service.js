@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const config = require('../config/config');
 const { BlogPost, Category, PostCategory, User } = require('../models');
 const throwError = require('../utils/throwError');
@@ -66,6 +67,33 @@ const getPostById = async (postId) => {
   return post;
 };
 
+const getPostByTerm = async (term) => {
+  const post = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: [`%${term}%`] } },
+        { content: { [Op.like]: [`%${term}%`] } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+
+  return post;
+};
+
+const getAllPost = async () => {
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  return posts;
+};
+
 const editPost = async (postId, userId, payload) => {
   const postNotUpdated = await BlogPost.findByPk(postId);
   if (!postNotUpdated) throwError(404, 'Post does not exist');
@@ -92,6 +120,8 @@ module.exports = {
   addPost,
   getPostsByUserId,
   getPostById,
+  getPostByTerm,
+  getAllPost,
   editPost,
   deletePost,
 };

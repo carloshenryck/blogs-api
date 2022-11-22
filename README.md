@@ -26,3 +26,21 @@ REST API to manage a blog
 
 ## 🧠 What I learned
 In this project I learned how to use an ORM and how to use JWT to do user validation 
+
+## 📦 Running
+Start docker-compose
+```bash
+docker-compose up -d
+```
+Join docker container
+```bash
+docker exec -it blogs_api bash
+```
+Install dependences
+```bash
+npm i
+```
+Start server
+```bash
+npm start
+```
